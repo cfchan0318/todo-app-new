@@ -4,11 +4,9 @@ const router = express.Router();
 const todoController = require('../controllers/todo.controller')
 
 
-router.get('/', (req, res) => {
-    todoController.getTodo(req).then(result => {
-        res.send(result)
-    })
-    
+router.get('/',   async (req, res) => {
+    const result =  await todoController.getTodo(req)
+    res.json(result)
 });
 
 router.post('/', (req, res) => {

@@ -1,14 +1,16 @@
 const getPool = (req) => { return req.app.locals.db; }
 
-const runQuery = async (req, query) => {
-    try {
-        let db = req.app.locals.db;
-        let result = await db.query(query);
-        return result;
-    } catch (error) {
-        console.error(error)
-        return;
-    }
+const runQuery = (req, query) => {
+    return new Promise((resolve, reject) => {
+        req.app.locals.db.request().query(query, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    })
 }
 
-module.exports = {getPool, runQuery }
+
+module.exports = { getPool, runQuery }
